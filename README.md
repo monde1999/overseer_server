@@ -9,7 +9,6 @@
     pip install requests
     (go to learn>views>[end line])
     (uncomment the LOCATION=[] and comment the LOCATION=get_locations())
-    python manage.py makemigrations
     python manage.py migrate
     python manage.py createsuperuser (you can use 'admin' as both username and password)
     (revert the commented and uncommented code above)
