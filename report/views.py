@@ -16,16 +16,19 @@ def createReport(request):
     lat = request.POST['latitude']
     long = request.POST['longitude']
 
+    """
+        pls test this method with this two lines of code
+        everytime you report, the location must be saved in the FloodProneArea table
+    """
+    # location = Location(float(lat), float(long))
+    # area = save_area(location, fl)
+
     r = Report(user = User.objects.get(id = usr),
     description = desc, 
     floodLevel = fl,
     latitude = lat,
     longitude = long)
     r.save()
-
-    # location = Location(lat, long)
-    # if save_area(location, fl) is False:
-    #     return Response("Fail")
     
     print(request.FILES.getlist('ReportImages'))
 
