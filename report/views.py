@@ -38,27 +38,22 @@ def createReport(request):
 
 @api_view(['POST'])
 def create_report(request):
-    print('was here!')
     usr = request.data.get('user')
     desc = request.data.get('description')
     fl = request.data.get('floodLevel')
     lat = request.data.get('latitude')
     long = request.data.get('longitude')
 
+    location = Location(float(lat), float(long))
+    area = save_area(location, fl)
+
     r = Report(user = User.objects.get(id = usr),
             description = desc, 
             floodLevel = fl,
-            latitude = lat,
-            longitude = long)
+            area=area)
     r.save()
 
-    resp = 'none'
-    location = Location(float(lat), float(long))
-    if save_area(location, fl) is False:
-        resp = 'location is present in the prone area database'
-    else:
-        resp = 'location successfully added as prone area'
-    return Response({'response':resp})
+    return Response({'response':'success'})
 
 @api_view(['POST'])
 def reactToReport(request):
@@ -68,4 +63,4 @@ def reactToReport(request):
 
     Reaction(report=report,user=user,isPositive=isPositive).save()
 
-    return Response(request.data)
+    return Response({'response':'success'})

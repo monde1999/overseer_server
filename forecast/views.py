@@ -45,13 +45,11 @@ class ReportViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Report.objects.all().order_by('timestamp')
-        latitude = self.request.query_params.get('latitude')
-        longitude = self.request.query_params.get('longitude')
+        area_id = self.request.query_params.get('area_id')
         # optimization: filter the objects that X away from the location first
-        if latitude is not None and longitude is not None:
-            latitude = float(latitude)
-            longitude = float(longitude)
-            queryset = queryset.filter(latitude=latitude,longitude=longitude)
+        if area_id is not None:
+            area_id = int(area_id)
+            queryset = queryset.filter(area__id=area_id)
         return queryset
     
 class ReportImageViewSet(viewsets.ModelViewSet):

@@ -7,6 +7,7 @@
     pip install djangorestframework
     pip install Pillow
     pip install requests
+    python manage.py makemigrations
     python manage.py migrate
     python manage.py runserver
 
@@ -55,8 +56,8 @@ AREAS [GET]: /forecast/flood-prone-areas/?latitude=XXX&longitude=YYY
     ---> param: center location
     ---> return: areas around 500 meters
 
-REPORTS [GET]: /forecast/reports/?latitude=XXX&longitude=YYY
-    ---> param: Area location
+REPORTS [GET]: /forecast/reports/?area_id=XXX
+    ---> param: area id
     ---> return: reports
 
 REPORT_IMAGES [GET]: /forecast/report-images/?report_id=XXX

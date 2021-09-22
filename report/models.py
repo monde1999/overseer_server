@@ -1,13 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
+from forecast.models import FloodProneArea
 
 class Report(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL,null=True)
     description = models.TextField(null=True,blank=True)
     floodLevel = models.FloatField()
-    latitude = models.FloatField()
-    longitude = models.FloatField()
+    # latitude = models.FloatField()
+    # longitude = models.FloatField()
+    area = models.ForeignKey(FloodProneArea, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(default = datetime.now)
 
     class Meta:

@@ -65,21 +65,21 @@ def get_weather_list(locations):
         weather_list.append(get_rain_level(loc))
     return weather_list
 
-def is_area_not_present(location, locations):
-    flag = True
-    for loc in locations:
+def get_area(location):
+    area = None
+    for loc in LOCATIONS:
         d = distance(location, loc)
         if d <= 100: #100 meters
-            flag = False
+            area = FloodProneArea.objects.get(latitude=loc.latitude,longitude=loc.longitude)
             break
-    return flag
+    return area
 
 def determine_flood_start():
     return 60
 
 def save_area(location, flood_level):
-    flag = True
-    if is_area_not_present(location, LOCATIONS):
+    area = get_area(location)
+    if area is None:
         area = FloodProneArea(latitude=location.latitude, longitude=location.longitude)
         area.save()
         LOCATIONS.append(location)
@@ -88,9 +88,7 @@ def save_area(location, flood_level):
         flood_start = determine_flood_start() # to be edited
         fl = FloodLevel(fpa=area, rain_level=rain_level, flood_level=flood_level, flood_start=flood_start)
         fl.save()
-    else:
-        flag = False
-    return flag
+    return area
 
-LOCATIONS = [] #get_locations()
+LOCATIONS = get_locations()
 WEATHER_LIST = [get_weather_list(LOCATIONS)]

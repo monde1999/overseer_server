@@ -16,7 +16,7 @@ class FloodLevelSerializer(serializers.HyperlinkedModelSerializer):
 class ReportSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Report
-        fields = ['id','latitude','longitude','description','floodLevel','timestamp']
+        fields = ['id','description','floodLevel','timestamp']
 
 class ReportImageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
