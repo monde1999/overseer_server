@@ -90,5 +90,6 @@ def save_area(location, flood_level):
         fl.save()
     return area
 
+# LOCATIONS = []
 LOCATIONS = get_locations()
 WEATHER_LIST = [get_weather_list(LOCATIONS)]
