@@ -9,6 +9,7 @@
     pip install requests
     python manage.py makemigrations
     python manage.py migrate
+    python manage.py createsuperuser (you can use 'admin' as both username and password)
     python manage.py runserver
 
 
