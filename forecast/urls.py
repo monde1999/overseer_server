@@ -13,4 +13,5 @@ router.register(r'report-reactions', views.ReactionViewSet, basename='forecast')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('report-reactions-count/', views.reaction_count,name='report_reactions_count'),
 ]

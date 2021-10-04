@@ -1,6 +1,9 @@
-from django.db.models import query
+from django.db.models import Count
+from django.db.models.query import QuerySet
 from rest_framework import viewsets
 from rest_framework import permissions
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 import requests
 import json
@@ -73,8 +76,25 @@ class ReactionViewSet(viewsets.ModelViewSet):
         user_id = self.request.query_params.get('user_id')
         if report_id is not None and user_id is not None:
             report_id = int(report_id)
-            user_id = int(user_id)
             report = Report.objects.get(id=report_id)
+            user_id = int(user_id)
             user = User.objects.get(id=user_id)
             queryset = queryset.filter(report=report,user=user)
         return queryset
+
+@api_view(['GET'])
+def reaction_count(request):
+    queryset = Reaction.objects.all()
+    report_id = request.query_params.get('report_id')
+    count1 = 0
+    count2 = 0
+    if report_id is not None:
+        report_id = int(report_id)
+        report = Report.objects.get(id=report_id)
+        count1 = queryset.filter(report=report,isPositive=True).count()
+        count2 = queryset.filter(report=report,isPositive=False).count()
+    context = {
+        'positive': count1,
+        'negative': count2
+    }
+    return Response(context)
