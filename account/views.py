@@ -5,6 +5,9 @@ from rest_framework.decorators import api_view
 from rest_framework import viewsets
 from .serializers import UserSerializer
 
+from rest_framework.status import HTTP_401_UNAUTHORIZED
+from rest_framework.authtoken.models import Token
+
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
@@ -13,23 +16,31 @@ class UserViewSet(viewsets.ModelViewSet):
 def signup(request):
     usr = request.data.get('username')
     pw = request.data.get('password')
-    fname = request.data.get('firstname')
-    lname = request.data.get('lastname')
-    em = request.data.get('email')
+    fname = request.data.get('firstName')
+    lname = request.data.get('lastName')
+    # em = request.data.get('email')
 
-    flag = 'false'
+    print(request.data)
+    isEmailUnique = False
     new_user = None
+    id = -1
+    token_key=''
     if usr != '' and pw != '': # validation here
-        queryset = User.objects.filter(username=usr)
-        if (len(queryset)==0):
-            new_user = User(username=usr,email=em,first_name=fname, last_name=lname)
+        isExisting = User.objects.filter(username=usr).exists()
+        if not isExisting:
+            new_user = User(username=usr,email=usr,first_name=fname, last_name=lname)
+            isEmailUnique = True
         if new_user is not None:
             new_user.set_password(pw)
             new_user.save()
-            flag = 'true'
+            id = new_user.id
+            token:Token = Token.objects.create(user=new_user)
+            token_key = token.key
     
     context = {
-        'flag': flag
+        'isEmailUnique':isEmailUnique,
+        'token': token_key,
+        'id' : id
     }
 
     return Response(context)
@@ -37,18 +48,40 @@ def signup(request):
 
 @api_view(["POST"])
 def login(request):
+    token_key = ''
     username = request.data.get("username")
     password = request.data.get("password")
-    f = authenticate(request, username=username, password=password)   
-    flag = 'false'
-    if f is not None:   
+    f = authenticate(request, username=username, password=password)
+    isUserNameCorrect = False
+    isPasswordCorrect = False
+    firstName = None
+    lastName = None
+    id = -1   
+    if f:   
+        user = User.objects.get(username = username)   
         flag = 'true'
+        token_key = Token.objects.get_or_create(user=f)[0].key
+        username = user.username
+        firstName = user.first_name
+        lastName = user.last_name
+        id = user.id
+        isUserNameCorrect = True
+        isPasswordCorrect = True
     else:
-        queryset = User.objects.filter(username=username)
-        if len(queryset) > 0:
-            flag = 'wrong_password'
+        isExisting = User.objects.filter(username=username).exists()
+        if isExisting:
+            isUserNameCorrect = True
+        else:
+            isUserNameCorrect = False
+        username=None
     content = {
-        'flag': flag
+        'isUserNameCorrect': isUserNameCorrect,
+        'isPasswordCorrect' : isPasswordCorrect,
+        'token':token_key,
+        'username' : username,
+        'firstName' : firstName,
+        'lastName' : lastName,
+        'id' :id,
     }
     return Response(content)
     
