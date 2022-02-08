@@ -4,10 +4,13 @@ from rest_framework.decorators import api_view,parser_classes
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser, MultiPartParser
 from django.core.files import File
-
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.status import HTTP_401_UNAUTHORIZED
 from learn.views import *
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 @parser_classes([MultiPartParser,JSONParser])
 def createReport(request):
     usr = request.data['user']
@@ -40,6 +43,7 @@ def createReport(request):
     return Response({'response':'success'})
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def create_report(request):
     usr = request.data.get('user')
     desc = request.data.get('description')
@@ -59,6 +63,7 @@ def create_report(request):
     return Response({'response':'success'})
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def reactToReport(request):
     report = Report.objects.get(id = request.data['report'])
     user = User.objects.get(id = request.data['user'])
