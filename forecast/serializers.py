@@ -1,7 +1,9 @@
+from django.contrib.auth.models import User
 from django.db.models import fields
 from rest_framework import serializers
 from forecast.models import FloodProneArea, FloodLevel
 from report.models import Report, Report_Image, Reaction
+from account.serializers import UserSerializer
 
 class FloodProneAreaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -14,9 +16,10 @@ class FloodLevelSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 class ReportSerializer(serializers.HyperlinkedModelSerializer):
+    user = UserSerializer(many=False,read_only=True)
     class Meta:
         model = Report
-        fields = ['id','description','floodLevel','timestamp']
+        fields = ['id','user','description','floodLevel','timestamp']
 
 class ReportImageSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

@@ -70,3 +70,6 @@ REPORT_IMAGES [GET]: /forecast/report-images/?report_id=XXX
 REPORT_REACTIONS [GET]: /forecast/report-reactions/?report_id=XXX&user_id=YYY
     ---> param: report id and user id
     ---> return: the reaction of a certain user to a certain report; may be empty
+
+REPORT_REACTIONS_COUNT [GET]: /forecast/report-reactions-count/?report_id=XXX
+    --- return = {'positive':mm,'negative':nn}
