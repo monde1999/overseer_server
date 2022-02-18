@@ -1,6 +1,7 @@
 from django.db.models import query
 from rest_framework import viewsets
 from rest_framework import permissions
+from rest_framework.decorators import permission_classes
 
 import requests
 import json
@@ -40,6 +41,7 @@ class FloodLevelViewSet(viewsets.ModelViewSet):
     serializer_class = FloodLevelSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+@permission_classes([permissions.IsAuthenticated])
 class ReportViewSet(viewsets.ModelViewSet):
     serializer_class = ReportSerializer
 
