@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import logging
+
+logging.disable(logging.INFO)
+logging.disable(logging.WARNING)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -44,6 +48,7 @@ INSTALLED_APPS = [
     'forecast',
     'report',
     'learn',
+    'learn.z2',
 ]
 
 MIDDLEWARE = [

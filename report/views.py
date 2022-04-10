@@ -30,7 +30,6 @@ def createReport(request):
     
     r.save()
     
-    
     print(request.FILES.getlist('ReportImages'))
 
     if request.FILES.get('ReportImages') is not None:
