@@ -2,6 +2,7 @@ from django.db.models import Count
 from django.db.models.query import QuerySet
 from rest_framework import viewsets
 from rest_framework import permissions
+from rest_framework.decorators import permission_classes
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -43,6 +44,7 @@ class FloodLevelViewSet(viewsets.ModelViewSet):
     serializer_class = FloodLevelSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+@permission_classes([permissions.IsAuthenticated])
 class ReportViewSet(viewsets.ModelViewSet):
     serializer_class = ReportSerializer
 
