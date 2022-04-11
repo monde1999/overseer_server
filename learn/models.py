@@ -35,8 +35,8 @@ class FloodLevel():
         self.level = level
         self.flood_start = flood_start
         self.flood_end = flood_end
-        self.flood_n = 0
-        self.level_n = 0
+        self.flood_n = 0 # +1 end sa monitor
+        self.level_n = 0 # +1 every report
     def __repr__(self):
         return 'FloodLevel[%s,Weather[%d],Level[%d],FS[%0.1f],FE[%0.1f],FN[%d],LN[%d]]' % \
             (self.fpa,self.weather,self.level,self.flood_start,self.flood_end,self.flood_n,self.level_n)

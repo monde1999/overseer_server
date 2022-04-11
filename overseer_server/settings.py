@@ -44,11 +44,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'learn',
+    'learn.z2',
     'account',
     'forecast',
     'report',
-    'learn',
-    'learn.z2',
 ]
 
 MIDDLEWARE = [
