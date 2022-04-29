@@ -60,8 +60,8 @@ def send_flood_prone_area_location(request):
 
     #random
     #flood volume
-    flood_start = int(request.data['flood_start'])
-    flood_end = int(request.data['flood_end'])
+    flood_start = int(request.data['flood_start']) // 2
+    flood_end = int(request.data['flood_end']) // 2
     
     fh = int(height * mult)
     fh = max(fh,0)
@@ -238,7 +238,7 @@ def save_area(location, flood_level):
     if area is None:
         area = fmodels.FloodProneArea(latitude=location.latitude, longitude=location.longitude)
         area.save()
-        LOCATIONS.append(location)
+        # LOCATIONS.append(location)
         
         rain_level = get_rain_level(location)
         flood_start = determine_flood_start() # to be edited

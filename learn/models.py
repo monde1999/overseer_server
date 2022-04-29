@@ -409,11 +409,32 @@ class Monitor:
                 # self.extend_flood()
             elif lvl==4 and self.to_destroy: # monitor is to be destroyed
                 print('>>> [REPORT] A flood is reported but lvl is 4. Making new Monitor...')
-                monitor = Monitor(self.area)
+                # monitor = Monitor(self.area)
                 # monitor.area.weather = z2.get_weather_current()
-                monitor.area.flood_end += 3
-                monitor.time_instantiated = self.time_instantiated
-                z2.analyzer.add_monitor(monitor)
+                # monitor.area.flood_end += 3
+                # monitor.time_instantiated = self.time_instantiated
+                # z2.analyzer.add_monitor(monitor)
+                self.to_destroy = False
+                self.area.flood_end += 3
+        elif state==1:
+            lvl = self.get_level()
+            if lvl==2 or lvl==3:
+                print('>>> [REPORT] A false flood is reported but lvl is 2 or 3. Changing flood_start...')
+                now = datetime.datetime.now()
+                seconds = self.seconds_between(self.time_instantiated, now)
+                seconds -= self.area.rain_start
+                self.area.flood_start += 3
+        elif state==3:
+            lvl = self.get_level()
+            if lvl==4:
+                print('>>> [REPORT] A flood is reported after rain but lvl is 4. Changing flood_end...')
+                self.to_destroy = False
+                self.area.flood_end += 3
+        elif state==0:
+            lvl = self.get_level()
+            if lvl==3:
+                print('>>> [REPORT] A false flood is reported but lvl is 3. Changing flood_end...')
+                self.area.flood_end -= 3
 
     def extend_flood(self):
         self.area.flood_end += 3

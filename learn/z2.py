@@ -107,7 +107,7 @@ def run_scheduled():
 
 def t1():
     # print('====================T1==========================')
-    analyzer.flush()
+    # analyzer.flush()
     analyzer.run1()
     # print_iter('UserLocations', user_locations)
     analyzer.distribute_locations(user_locations)
@@ -123,6 +123,7 @@ def t2():
     print_iter('Monitored', analyzer.monitors)
 
 def t3():
+    analyzer.flush()
     analyzer.run2()
     # print(analyzer.monitors)
     print('====================T3==========================')
