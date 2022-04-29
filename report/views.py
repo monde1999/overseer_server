@@ -6,7 +6,9 @@ from rest_framework.parsers import JSONParser, MultiPartParser
 from django.core.files import File
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+
 from rest_framework.status import HTTP_400_BAD_REQUEST
+
 from learn.views import *
 
 @api_view(['POST'])
